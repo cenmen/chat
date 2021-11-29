@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B</title>
+</head>
+<style>
+  .container {
+    width: 600px;
+    height: 500px;
+    margin: auto;
+    border: 1px solid black;
+    display: flex;
+  }
+  .sider {
+    overflow-y: auto;
+    width: 200px;
+    border-right: 1px solid black;
+  }
+  .content {
+    flex: 1;
+  }
+  .history {
+    border-bottom: 1px solid black;
+    height: 400px;
+  }
+  .input-container {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+  }
+  .textarea {
+    flex: 1;
+  }
+  .user-item {
+    background: aliceblue;
+    border: 1px solid antiquewhite;
+    padding: 10px;
+  }
+</style>
+<body>
+  <div class="container">
+    <div class="sider"></div>
+    <div class="content">
+      <div class="history"></div>
+      <div class="input-container">
+        <textarea class="textarea" autofocus></textarea>
+        <button onclick="submit()">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./axios.min.js"></script>
+  <script src="./socket.js"></script>
+  <script>
+    const BASE_URL = 'http://localhost:3000', USER_ID = 'b'
+    let currentUser = null
+    axios({
+      url: `${BASE_URL}/userList`,
+      params: {
+        userId: USER_ID
+      }
+    }).then(({data}) => {
+      const html = data.map(item => `<div user-id=${item.id} class="user-item">${item.name}</div>`).join('')
+      document.querySelector('.sider').innerHTML = html
+      currentUser = data[0]
+    })
+
+    const socket = new Socket({
+      userId: USER_ID,
+      location: 'ws://localhost:8080/ws',
+      onmessage: (e) => socketMessage(e),
+      onopen: (e) => console.log('==> onopen', e),
+      onclose: (e) => console.log('==> onclose', e),
+    })
+    
+    function socketMessage(event) {
+      
+    }
+
+    function submit() {
+      const val = document.querySelector('.textarea').value
+      socket.send(JSON.stringify({
+        targetId: currentUser.id,
+        userId: USER_ID,
+        content: val
+      }))
+    }
+  </script>
+</body>
+</html>
