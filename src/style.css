@@ -1,0 +1,40 @@
+.container {
+  width: 600px;
+  height: 500px;
+  margin: auto;
+  border: 1px solid black;
+  display: flex;
+}
+.sider {
+  overflow-y: auto;
+  width: 200px;
+  border-right: 1px solid black;
+}
+.content {
+  flex: 1;
+}
+.history {
+  border-bottom: 1px solid black;
+  height: 400px;
+  overflow-y: auto;
+}
+.input-container {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+}
+.textarea {
+  flex: 1;
+}
+.user-item {
+  background: aliceblue;
+  border: 1px solid antiquewhite;
+  padding: 10px;
+}
+.left-bubble {
+  text-align: left;
+}
+.right-bubble {
+  background: #a9e87a;
+  text-align: right;
+}

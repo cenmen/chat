@@ -27,8 +27,6 @@ function Socket({location, onmessage: handleMessage, onopen: handleOpen, onclose
     socket.close(code, reason)
   }
 
-  send(JSON.stringify({userId})) // 后端记录用户ID
-  
   return {
     send,
     close
